@@ -102,7 +102,7 @@ class RollcallXMPP::XMPPClient
     begin
       client.auth(@admin_password)
     rescue Jabber::ClientAuthenticationFailure
-      xmpp_error = "Couldn't authenticate with XMPP server as (#{jid})! Make sure that the admin account matching your RollcallXMPP configuration has been configured on the XMPP server."
+      xmpp_error = "Couldn't authenticate with XMPP server as (#{@admin_jid})! Make sure that the admin account matching your RollcallXMPP configuration has been configured on the XMPP server."
       client.close
 
       Rails.logger.error xmpp_error
