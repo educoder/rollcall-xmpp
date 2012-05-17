@@ -52,7 +52,8 @@ Account.class_eval do
     end
 
     after_save do |account|
-      account.instance_variable_get(:@xmpp).disconnect!
+      xmpp = account.instance_variable_get(:@xmpp)
+      xmpp.disconnect! if xmpp
     end
 
     validate do
