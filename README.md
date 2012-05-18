@@ -12,7 +12,7 @@ Installation
 ============
 
 1. `cd` into the Rollcall root directory
-2. edit the Gemfile and uncomment "rollcall-xmpp"
+2. edit the Gemfile and uncomment `gem "rollcall-xmpp"`
 3. run `bundle --without=development`
 4. uncomment and configure the `config.xmpp.*` options at the bottom of `config/environments/production.rb`
 5. you will have to give Rollcall the jid and password for a valid admin user (`config.xmpp.admin_jid` and `config.xmpp.admin_password`)
