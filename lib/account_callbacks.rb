@@ -57,6 +57,9 @@ Account.class_eval do
     end
 
     validate do
+      if (self.login + "@" + RollcallXMPP::DOMAIN) == RollcallXMPP::ADMIN_JID
+        self.errors.add(:login, "cannot be the same as the XMPP Admin JID")
+      end
       self.errors[:base] << @xmpp_error.to_s if @xmpp_error
     end
   end
