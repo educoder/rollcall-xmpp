@@ -22,6 +22,7 @@ Account.class_eval do
         rescue RollcallXMPP::XMPPClient::Error => e
           unless e.to_s.include? "Account already exists" # FIXME: hacky!
             account.instance_variable_set(:@xmpp_error, e)
+          end
         end
       end
     end
@@ -34,6 +35,7 @@ Account.class_eval do
         rescue RollcallXMPP::XMPPClient::Error => e
           unless e.to_s.include? "Account already exists" # FIXME: hacky!
             account.instance_variable_set(:@xmpp_error, e)
+          end
         end
       end
     end
