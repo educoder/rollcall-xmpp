@@ -4,7 +4,7 @@ require 'account'
 Account.class_eval do
   unless Rails.env == 'test'
     require 'xmpp'
-    Rails.logger.debug "Loaded XMPP connector for domain #{RollcallXMPP::DOMAIN}."
+    Rails.logger.debug "rollcall-xmpp: Loaded XMPP connector for domain #{RollcallXMPP::DOMAIN}."
   
     before_validation do |account|
       unless account.instance_variable_get(:@xmpp)
@@ -21,6 +21,7 @@ Account.class_eval do
           account.instance_variable_get(:@xmpp).add_user(account.login, account.encrypted_password)
         rescue RollcallXMPP::XMPPClient::Error => e
           if e.to_s.include? "Account already exists" # FIXME: hacky!
+            Rails.logger.debug "rollcall-xmpp: XMPP says the account #{account.login.inspect} already exists... Trying to change its password to #{account.encrypted_password.inspect}"
             account.instance_variable_get(:@xmpp).change_user_password(account.login, account.encrypted_password)
           else
             account.instance_variable_set(:@xmpp_error, e)

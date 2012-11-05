@@ -19,7 +19,7 @@ class RollcallXMPP::XMPPClient
 
     jid = Jabber::JID::new(username, @domain)
 
-    Rails.logger.debug "Creating XMPP account for #{jid}..."
+    Rails.logger.debug "rollcall-xmpp: Creating XMPP account for #{jid}..."
 
     result = nil
     begin
@@ -30,11 +30,11 @@ class RollcallXMPP::XMPPClient
       })
     rescue Jabber::ServerError => e
       xmpp_error = "Failed to create XMPP account for #{jid} (#{e} - #{e.error})" 
-      Rails.logger.warn xmpp_error
+      Rails.logger.warn "rollcall-xmpp: #{xmpp_error}"
       raise Error, xmpp_error
     rescue => e
       xmpp_error = "Failed to create XMPP account for #{jid} (#{e})" 
-      Rails.logger.warn xmpp_error
+      Rails.logger.warn "rollcall-xmpp: #{xmpp_error}"
       raise Error, xmpp_error
     end
 
@@ -47,7 +47,7 @@ class RollcallXMPP::XMPPClient
   def change_user_password(username, new_password)
     jid = Jabber::JID::new(username, @domain)
 
-    Rails.logger.debug "Changing XMPP password for #{jid} to #{new_password.inspect}..."
+    Rails.logger.debug "rollcall-xmpp: Changing XMPP password for #{jid} to #{new_password.inspect}..."
 
     result = nil
     begin
@@ -57,11 +57,11 @@ class RollcallXMPP::XMPPClient
       })
     rescue Jabber::ServerError => e
       xmpp_error = "Failed to change XMPP password for #{jid} (#{e} - #{e.error})" 
-      Rails.logger.warn xmpp_error
+      Rails.logger.warn "rollcall-xmpp: #{xmpp_error}"
       raise Error, xmpp_error
     rescue => e
       xmpp_error = "Failed to change XMPP password for #{jid} (#{e})" 
-      Rails.logger.warn xmpp_error
+      Rails.logger.warn "rollcall-xmpp: #{xmpp_error}"
       raise Error, xmpp_error
     end
 
@@ -71,7 +71,7 @@ class RollcallXMPP::XMPPClient
   def delete_user(username)
     jid = Jabber::JID::new(username, @domain)
 
-    Rails.logger.debug "Deleting XMPP account for #{jid}..."
+    Rails.logger.debug "rollcall-xmpp: Deleting XMPP account for #{jid}..."
 
     result = nil
     begin
@@ -80,11 +80,11 @@ class RollcallXMPP::XMPPClient
       })
     rescue Jabber::ServerError => e
       xmpp_error = "Failed to delete XMPP account for #{jid} (#{e} - #{e.error})" 
-      Rails.logger.warn xmpp_error
+      Rails.logger.warn "rollcall-xmpp: #{xmpp_error}"
       raise Error, xmpp_error
     rescue => e
       xmpp_error = "Failed to delete XMPP account for #{jid} (#{e})" 
-      Rails.logger.warn xmpp_error
+      Rails.logger.warn "rollcall-xmpp: #{xmpp_error}"
       raise Error, xmpp_error
     end
 
@@ -105,7 +105,7 @@ class RollcallXMPP::XMPPClient
       xmpp_error = "Couldn't authenticate with XMPP server as (#{@admin_jid})! Make sure that the admin account matching your RollcallXMPP configuration has been configured on the XMPP server."
       client.close
 
-      Rails.logger.error xmpp_error
+      Rails.logger.error "rollcall-xmpp: #{xmpp_error}"
       raise Error, xmpp_error
     end
 
@@ -189,12 +189,12 @@ class RollcallXMPP::XMPPClient
       else
         msg = "XMPP: #{success_text}."
       end
-      Rails.logger.info "#{msg} (#{result_note})"
+      Rails.logger.info "rollcall-xmpp: #{msg} (#{result_note})"
       @actions << msg
     else
       reason = result_note ? "#{result_note.text} (#{result_note.attributes['type']})" : result.command.to_s
       failure = "XMPP: #{failure_text} because: #{reason}!" 
-      Rails.logger.warn failure
+      Rails.logger.warn "rollcall-xmpp: #{failure}"
       raise Error, failure
     end
   end
