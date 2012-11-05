@@ -20,7 +20,9 @@ Account.class_eval do
         begin
           account.instance_variable_get(:@xmpp).add_user(account.login, account.encrypted_password)
         rescue RollcallXMPP::XMPPClient::Error => e
-          unless e.to_s.include? "Account already exists" # FIXME: hacky!
+          if e.to_s.include? "Account already exists" # FIXME: hacky!
+            account.instance_variable_get(:@xmpp).change_user_password(account.login, account.encrypted_password)
+          else
             account.instance_variable_set(:@xmpp_error, e)
           end
         end
